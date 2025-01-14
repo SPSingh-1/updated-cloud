@@ -7,11 +7,27 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  fathername: {
+    type: String,
+    required: true,
+  },
+  mothername: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     required: true,
     //it use for unique values and make a restrictions
     unique: true,
+  },
+  phoneno: {
+    type: Number,
+    required: true,
+  },
+  dob: {
+    type: String,
+    required: true,
   },
   password: {
     type: String,

@@ -1,21 +1,19 @@
-import React from "react";
-import {Link, useNavigate} from "react-router-dom";
-// import {Link,useLocation} from "react-router-dom";
+import React from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
-  // let location = useLocation();
-  // useEffect(() => {
-  //   console.log(location.pathname)
-  // }, [location]);
-  let history = useNavigate();
-  const handleLogout = ()=>{
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLogout = () => {
     localStorage.removeItem('token');
-    history('/login')
-  }
+    navigate('/login');
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg bg-dark ">
-      <div className="container-fluid ">
-        <Link className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-lg bg-dark fixed-top">
+      <div className="container-fluid">
+        <Link className="navbar-brand text-light" to="/">
           My-Cloud
         </Link>
         <button
@@ -29,28 +27,55 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse " id="navbarNavDropdown">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link className={`nav-link active}`} aria-current="page" to="/home">
-              {/* <Link className={`nav-link ${location.pathname==="/home"? "active": ""}`} aria-current="page" to="/home"> */}
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link }`} to="/about">
-              {/* <Link className={`nav-link ${location.pathname==="/about"? "active": ""}`} to="/about"> */}
-                About
-              </Link>
-            </li>
-          </ul>
-          </div>
-          {!localStorage.getItem('token')?<form className="d-flex justify-content-end">
 
-            <Link className="btn btn-primary mx-1 " to="/login" role="button">Login</Link>
-            <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-          </form>: <button onClick={handleLogout} className="btn btn-primary"> Logout</button>}
-        
+        <ul className="navbar-nav">
+            {localStorage.getItem('token') && (
+              <>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link text-primary ${location.pathname === '/home' ? 'active' : ''}`}
+                    to="/home"
+                  >
+                    Home
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link
+                    className={`nav-link text-primary ${location.pathname === '/about' ? 'active' : ''}`}
+                    to="/about"
+                  >
+                    About
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        <div className="collapse navbar-collapse d-flex justify-content-end " id="navbarNavDropdown">
+            {localStorage.getItem('token') ? (
+              <>
+               <Link
+                    className={`nav-link text-primary ${location.pathname === '/account' ? 'active' : ''}`}
+                    to="/account"
+                  >
+                    <box-icon name='user' size="40px" color="white" className="mx-5" >
+                    AccountDetail
+                    </box-icon>
+                  </Link>
+              <button onClick={handleLogout} className="btn btn-primary">
+                Logout
+              </button>
+            </>
+            ) : (
+              <div className="d-flex justify-content-end ">
+                <Link className="btn btn-primary mx-1" to="/login" role="button">
+                  Login
+                </Link>
+                <Link className="btn btn-primary mx-1" to="/signup" role="button">
+                  Signup
+                </Link>
+              </div>
+            )}
+        </div>
       </div>
     </nav>
   );

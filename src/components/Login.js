@@ -1,13 +1,18 @@
 import React, { useState } from "react";
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
+
+
 
 const Login = (props) => {
-
 const [credentials, setCredentials] = useState({email: "", password: ""});
+const [error, setError] = useState(""); // State for error message
 let history = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError("");  //clere error msg
+
+    try{
     const response = await fetch("http://localhost:5000/api/auth/login", {
       method: "POST",
       headers: {
@@ -15,18 +20,25 @@ let history = useNavigate();
       },
       body: JSON.stringify({email: credentials.email,password: credentials.password})
     });
+
     const json = await response.json();
-    console.log(json);
+    console.log("Login Response:",json);//Debugging
+
     if(json.success){
         //Save the auth token and redirect
         localStorage.setItem('token', json.authToken);
-        props.showAlert("Logged in Successfully", "success")
         history("/home");
+        props.showAlert("Logged in Successfully", "success")
     }
     else{
+      setError("Invalid email or password. Please try again."); // Set error message
         props.showAlert("Invalid credentials", "danger")
     }
-  };
+  }catch (error) {
+    setError("Something went wrong. Please try again later."); // Handle network errors
+    }
+  }
+  
 
   const onChange = (e)=>{
     setCredentials({...credentials, [e.target.name]: e.target.value})
@@ -34,8 +46,11 @@ let history = useNavigate();
 
   return (
     <>
-    <h2 className="mt-3 mb-3">Login to continue to My-Cloud</h2>
-      <form onSubmit={handleSubmit}>
+     <div className="container w-50 h-auto">
+     <div className="d-flex flex-column align-items-center border border-dark bg-light p-3">
+    <h2>Login for storing notes</h2>
+    {error && <p style={{ color: "red" }}>{error}</p>} {/* Error message */}
+      <form onSubmit={handleSubmit} className="w-30">
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
             Email address
@@ -47,11 +62,7 @@ let history = useNavigate();
             id="email"
             name="email"
             onChange={onChange}
-            aria-describedby="emailHelp"
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
@@ -66,10 +77,17 @@ let history = useNavigate();
             name="password"
           />
         </div>
+        <div className="d-flex flex-column align-items-end">
         <button type="submit" className="btn btn-primary" >
-          Submit
+          Login
         </button>
+        <Link className="d-flex flex-coloum" to="/signup" role="text">
+          Go to Signup
+        </Link>
+        </div>
       </form>
+      </div>
+      </div>
     </>
   );
 };

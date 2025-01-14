@@ -3,7 +3,7 @@ const User = require("../models/User");
 const router = express.Router();
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs"); //for creating the #,salt,paper
-const jwt = require("jsonwebtoken"); //ist is used for create the token and give to the user
+const jwt = require("jsonwebtoken"); //it is used for create the token and give to the user
 const fetchuser = require("../middleware/fetchUser");
 
 const JWT_SECRET = "Shashiisgoodb$oy";
@@ -13,7 +13,10 @@ router.post(
   "/createuser",
   [
     body("name", "Enter a valid Name").isLength({ min: 3 }),
+    body("name", "Enter a valid Father Name").isLength({ min: 3 }),
+    body("name", "Enter a valid Mother Name").isLength({ min: 3 }),
     body("email", "Enter a valid email").isEmail(),
+    body("phoneno", "Enter a valid Phoneno").isLength({min: 10 }),
     body("password", "Enter a valid password").isLength({ min: 5 }),
   ],
   async (req, res) => {
@@ -36,7 +39,11 @@ router.post(
       //Create a new users and have there three attribute
       user = await User.create({
         name: req.body.name,
+        fathername: req.body.fathername,
+        mothername: req.body.mothername,
         email: req.body.email,
+        phoneno: req.body.phoneno,
+        dob: req.body.dob,
         password: secPass,
       });
 
@@ -108,7 +115,7 @@ router.post(
 //ROUTE 3 : Get loggedin User Details using POST "/api/auth/getuser". Login required
 router.post("/getuser", fetchuser, async (req, res) => {
   try {
-    userId = req.user.id;
+    const userId = req.user.id;
     const user = await User.findById(userId).select("-password");
     res.send(user);
   } catch (error) {
@@ -116,6 +123,54 @@ router.post("/getuser", fetchuser, async (req, res) => {
     res.status(500).send("Internal Server Errors");
   }
 });
+
+//ROUTE 4 : Update loggedin User Details using PUT "/api/auth/updateuser". Login required
+router.put(
+  "/updateuser/:id",
+  fetchuser,
+  async (req, res) => {
+    const { name, phoneno, mothername, fathername, dob } = req.body;
+
+    try {
+      console.log("Request received:", req.body);
+
+      // Validate MongoDB ObjectId
+      const mongoose = require("mongoose");
+      if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        return res.status(400).send("Invalid ID format");
+      }
+
+      // Create updated fields object
+      const newUser = {};
+      if (name) newUser.name = name;
+      if (phoneno) newUser.phoneno = phoneno;
+      if (fathername) newUser.fathername = fathername;
+      if (mothername) newUser.mothername = mothername;
+      if (dob) newUser.dob = dob;
+
+      // Fetch the user
+      let user = await User.findById(req.params.id);
+      if (!user) {
+        return res.status(404).send("User not found");
+      }
+      console.log("User found:", user);
+
+      // Check ownership
+      if (user.id.toString() !== req.user.id) {
+        return res.status(401).send("Not Allowed");
+      }
+
+      // Update user
+      user = await User.findByIdAndUpdate(req.params.id, { $set: newUser }, { new: true });
+      res.json({ user });
+    } catch (error) {
+      console.error("Error in /updateuser:", error.stack);
+      res.status(500).send("Internal Server Error");
+    }
+  }
+);
+
+
 
 //for export the module
 module.exports = router;

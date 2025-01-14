@@ -12,6 +12,9 @@ import NoteState from './context/notes/NoteState';
 import Alerts from './components/Alerts';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import Front from './components/FrontPage/Front';
+import AccountDetail from './components/AccountDetail';
+import SuccessSignUp from './components/SuccessSignUp';
 
 function App() {
   const [alert, setAlert] = useState(null);
@@ -33,17 +36,26 @@ function App() {
           <Alerts alert={alert}/>
           <div className="container">
             <Routes>
+                <Route path="/"
+                  element={<Front showAlert={showAlert}/>}
+                />
                 <Route path="/home"
                   element={<Home showAlert={showAlert}/>}
                 />
                 <Route path="/about"
                   element={<About showAlert={showAlert}/>}
                 />
+                <Route path="/account"
+                  element={<AccountDetail showAlert={showAlert}/>}
+                />
                 <Route path="/login"
                   element={<Login showAlert={showAlert}/>}
                 />
                 <Route path="/signup"
                   element={<Signup showAlert={showAlert}/>}
+                />
+                <Route path="/successsignup"
+                  element={<SuccessSignUp/>}
                 />
             </Routes>
           </div>
