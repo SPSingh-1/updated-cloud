@@ -36,7 +36,7 @@ function App() {
           <Alerts alert={alert}/>
           <div className="container">
             <Routes>
-                <Route path="/Updated-cloud"
+                <Route path="/updated-cloud"
                   element={<Front showAlert={showAlert}/>}
                 />
                 <Route path="/home"
