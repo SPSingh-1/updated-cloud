@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/.github.io/updated-cloud/static/css/main.87ab02da.css",
+    "main.js": "/.github.io/updated-cloud/static/js/main.f3ac167b.js",
+    "static/media/1.jpg": "/.github.io/updated-cloud/static/media/1.2a862b4c3875ee61656b.jpg",
+    "static/media/3.jpg": "/.github.io/updated-cloud/static/media/3.a4b4ae0ecf8f6bad7a40.jpg",
+    "index.html": "/.github.io/updated-cloud/index.html",
+    "main.87ab02da.css.map": "/.github.io/updated-cloud/static/css/main.87ab02da.css.map",
+    "main.f3ac167b.js.map": "/.github.io/updated-cloud/static/js/main.f3ac167b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.87ab02da.css",
+    "static/js/main.f3ac167b.js"
+  ]
+}
