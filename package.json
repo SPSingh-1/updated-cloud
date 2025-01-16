@@ -1,5 +1,6 @@
 {
   "name": "my-cloud",
+  "homepage": "https://SPSingh-1/.github.io/updated-cloud",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -9,6 +10,7 @@
     "boxicons": "^2.1.4",
     "concurrently": "^9.1.0",
     "eslint-plugin-react-hooks": "^5.2.0-canary-3b009b4c-20250102",
+    "gh-pages": "^6.3.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.7",
     "react-dom": "^18.2.0",
@@ -21,7 +23,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "both": "concurrently \"npm run start\" \"nodemon backend/index.js\""
+    "both": "concurrently \"npm run start\" \"nodemon backend/index.js\"",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
