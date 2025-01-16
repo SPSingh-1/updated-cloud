@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg bg-dark fixed-top">
       <div className="container-fluid">
-        <Link className="navbar-brand text-light" to="/">
+        <Link className="navbar-brand text-light" to="/updated-cloud">
           My-Cloud
         </Link>
         <button
