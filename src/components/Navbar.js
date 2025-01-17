@@ -57,9 +57,11 @@ const Navbar = () => {
                     className={`nav-link text-primary ${location.pathname === '/account' ? 'active' : ''}`}
                     to="/account"
                   >
-                    <box-icon name='user' size="40px" color="white" className="mx-5" >
+                    {/* <box-icon name='user' size="40px" color="red" className="mx-5" > */}
+                    <box-icon type='solid'size="40px" color="white" className="mx-5 my-5"  name='user-circle'>
                     AccountDetail
                     </box-icon>
+                    {/* </box-icon> */}
                   </Link>
               <button onClick={handleLogout} className="btn btn-primary">
                 Logout

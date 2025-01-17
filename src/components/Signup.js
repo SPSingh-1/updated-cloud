@@ -48,7 +48,7 @@ const Signup = (props) => {
       }
     };
   return (
-    <div className="container w-50 h-auto">
+    <div className="container w-auto h-auto">
     <div className="d-flex flex-column align-items-center border border-dark bg-light p-3">
       <h2>Let's signup for notes</h2>
     {error && <p style={{ color: "red" }}>{error}</p>} {/*Error message*/}
